@@ -32,7 +32,6 @@ yesterday_stock_price = float(stocks_data[dates[0]]["4. close"])
 before_yesterday_stock_price = float(stocks_data[dates[1]]["4. close"])
 difference = abs(yesterday_stock_price - before_yesterday_stock_price)
 percentage_difference = round((difference / float(before_yesterday_stock_price)) * 100,2)
-symbol = "🔺" if difference > 0 else "🔻"
 
 if percentage_difference > 5:
     news_dict = {
@@ -44,7 +43,7 @@ if percentage_difference > 5:
     news = requests.get(NEWS_ENDPOINT, params=news_dict).json()
     news_list = news["articles"][:3]
     for news in news_list:
-        msg = f"Subject:{STOCK_NAME}: {symbol}{percentage_difference}%\n\nHeadline: {news['title']}\n\nBrief: {news['description']}"
+        msg = f"Subject:{STOCK_NAME}: 🔺 {percentage_difference}%\n\nHeadline: {news['title']}\n\nBrief: {news['description']}"
         with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
             connection.starttls()
             connection.login(user=my_email, password=password)
